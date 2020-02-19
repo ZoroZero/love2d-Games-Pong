@@ -1,12 +1,21 @@
 push = require "push"
 
+Class = require 'class'
+
+-- our Paddle class, which stores position and dimensions for each Paddle
+-- and the logic for rendering them
+
+-- our Ball class, which isn't much different than a Paddle structure-wise
+-- but which will mechanically function very differently
+require 'Ball'
+
 WINDOW_WIDTH = 1280;
 WINDOW_HEIGHT = 720;
 
 VIRTUAL_WIDTH = 432;
 VIRTUAL_HEIGH = 243;
 
-PADDLE_SPEED = 300;
+PADDLE_SPEED = 200;
 
 function love.load()
     -- love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -35,11 +44,12 @@ function love.load()
     player1_Y = 30;
     player2_Y = VIRTUAL_HEIGH-50;
 
-    ball_X = VIRTUAL_WIDTH/2-2;
-    ball_Y = VIRTUAL_HEIGH/2 -2;
+    -- ball_X = VIRTUAL_WIDTH/2 -2;
+    -- ball_Y = VIRTUAL_HEIGH/2 -2;
 
-    ball_DX = math.random(2) == 1 and 100 or -100;
-    ball_DY = math.random(-50, 50)* 1.5;
+    -- ball_DX = math.random(2) == 1 and 100 or -100;
+    -- ball_DY = math.random(-50, 50)* 1.5;
+    ball = Ball(VIRTUAL_WIDTH/2 -2, VIRTUAL_HEIGH/2 -2, 4, 4)
     game_state = 'start';
 end
 
@@ -53,12 +63,7 @@ function love.keypressed(key)
             game_state = 'play';
         else
             game_state = 'start';
-
-            ball_X = VIRTUAL_WIDTH/2 -2;
-            ball_Y = VIRTUAL_HEIGH/2 -2;
-        
-            ball_DX = math.random(2) == 1 and 100 or -100;
-            ball_DY = math.random(-50, 50)* 1.5;
+            ball:reset();
         
         end
     end
@@ -77,9 +82,7 @@ function love.update(dt)
         elseif love.keyboard.isDown('down') then
             player2_Y = math.min(VIRTUAL_HEIGH - 20, player2_Y + PADDLE_SPEED*dt);
         end
-
-        ball_X = ball_X + ball_DX*dt;
-        ball_Y = ball_Y + ball_DY*dt;
+        ball:update(dt);
     end
 end
 
@@ -99,7 +102,7 @@ function love.draw()
 
     love.graphics.rectangle('fill', VIRTUAL_WIDTH - 30, player2_Y, 5, 20)
     
-    love.graphics.rectangle('fill', ball_X , ball_Y , 4, 4)
+    ball:render();
 
     push:apply('end')
 end
