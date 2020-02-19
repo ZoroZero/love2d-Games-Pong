@@ -1,0 +1,35 @@
++ Main:
+	love.load(): initialize the state of the game _ load variable
+
+	love.update(dt): update the game after dt
+
+	love.draw(): render the game
+
++ Draw:
+	love.graphics.printf(text, x, y, [width], [align]): print function that align text
+
+	love.graphics.setDefaultFilter(min, mag): Sets texture scaling filter when minimizing and magnifying
+	
+	love.graphics.newFont(path, size): load new font and store inside an object
+
+	love.graphics.setFont(font): set the font with the font object
+
+	love.graphics.clear(r, g, b, a): wipes the entire screen with a color define by an RGBA set (r:red, g:green, b:blue,a)
+
+	love.graphics.rectangle(mode, x, y, width, height): draw a rectangle onto the screen with current color
+
+
++ Load:
+	love.window.setMode(width, height, params): 
+
+	love.event.quit(): terminate application
+
+
++ Update:
+	love.keypressed(key): callback function when pressed the button
+
+	love.keyboard.isDown(key): return true or false whether the key is pressed
+
+
++Important:
+	Bilinear, trilinear, anisotropic can cause blurriness in 2D
