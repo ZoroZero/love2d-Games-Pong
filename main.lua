@@ -4,10 +4,11 @@ Class = require 'class'
 
 -- our Paddle class, which stores position and dimensions for each Paddle
 -- and the logic for rendering them
-
+require 'Paddle'
 -- our Ball class, which isn't much different than a Paddle structure-wise
 -- but which will mechanically function very differently
 require 'Ball'
+
 
 WINDOW_WIDTH = 1280;
 WINDOW_HEIGHT = 720;
@@ -41,9 +42,10 @@ function love.load()
     player1_score = 0;
     player2_score = 0;
 
-    player1_Y = 30;
-    player2_Y = VIRTUAL_HEIGH-50;
-
+    -- player1_Y = 30;
+    -- player2_Y = VIRTUAL_HEIGH-50;
+    player1 = Paddle(10, 30, 5, 20)
+    player2 = Paddle(VIRTUAL_WIDTH - 30, VIRTUAL_HEIGH-50, 5, 20)
     -- ball_X = VIRTUAL_WIDTH/2 -2;
     -- ball_Y = VIRTUAL_HEIGH/2 -2;
 
@@ -72,18 +74,25 @@ end
 function love.update(dt)
     if game_state == 'play' then
         if love.keyboard.isDown('w') then
-            player1_Y = math.max(0, player1_Y - PADDLE_SPEED*dt);
+            player1.speed = -PADDLE_SPEED
         elseif love.keyboard.isDown('s') then
-            player1_Y = math.min(VIRTUAL_HEIGH - 20, player1_Y + PADDLE_SPEED*dt);
+            player1.speed = PADDLE_SPEED
+        else 
+            player1.speed = 0
         end
 
         if love.keyboard.isDown('up') then
-            player2_Y = math.max(0, player2_Y - PADDLE_SPEED*dt);
+            player2.speed = -PADDLE_SPEED
         elseif love.keyboard.isDown('down') then
-            player2_Y = math.min(VIRTUAL_HEIGH - 20, player2_Y + PADDLE_SPEED*dt);
+            player2.speed = PADDLE_SPEED
+        else
+            player2.speed = 0
         end
         ball:update(dt);
     end
+
+    player1:update(dt);
+    player2:update(dt);
 end
 
 function love.draw()
@@ -98,10 +107,13 @@ function love.draw()
     love.graphics.print(tostring(player2_score), VIRTUAL_WIDTH/2 + 30, VIRTUAL_HEIGH/3)
 
 
-    love.graphics.rectangle('fill', 10, player1_Y, 5, 20)
+    -- love.graphics.rectangle('fill', 10, player1_Y, 5, 20)
 
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH - 30, player2_Y, 5, 20)
-    
+    -- love.graphics.rectangle('fill', VIRTUAL_WIDTH - 30, player2_Y, 5, 20)
+    player1:render()
+
+    player2:render()
+
     ball:render();
 
     push:apply('end')
