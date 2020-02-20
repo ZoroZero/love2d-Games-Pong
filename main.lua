@@ -27,6 +27,8 @@ function love.load()
 
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
+    love.window.setTitle("Pong")
+
     math.randomseed(os.time())
 
     smallFont = love.graphics.newFont('font.ttf', 8)
@@ -103,18 +105,26 @@ function love.draw()
     love.graphics.printf("Hello Pong", 0, 20, VIRTUAL_WIDTH, 'center');
 
     love.graphics.setFont(largeFont)
-    love.graphics.print(tostring(player1_score), VIRTUAL_WIDTH/2 - 50, VIRTUAL_HEIGH/3)
-    love.graphics.print(tostring(player2_score), VIRTUAL_WIDTH/2 + 30, VIRTUAL_HEIGH/3)
+    love.graphics.print(tostring(player1_score), VIRTUAL_WIDTH/2 - 50, VIRTUAL_HEIGH/3);
+    love.graphics.print(tostring(player2_score), VIRTUAL_WIDTH/2 + 30, VIRTUAL_HEIGH/3);
 
 
     -- love.graphics.rectangle('fill', 10, player1_Y, 5, 20)
 
     -- love.graphics.rectangle('fill', VIRTUAL_WIDTH - 30, player2_Y, 5, 20)
-    player1:render()
+    player1:render();
 
-    player2:render()
+    player2:render();
 
     ball:render();
 
+    displayFPS();
+
     push:apply('end')
+end
+
+function displayFPS()
+    love.graphics.setFont(smallFont)
+    love.graphics.setColor(0 , 255, 0, 255)
+    love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), 10, 10)
 end

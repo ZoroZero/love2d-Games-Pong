@@ -24,11 +24,15 @@
 
 	love.event.quit(): terminate application
 
+	love.window.setTitle(title): set title
+
 
 + Update:
 	love.keypressed(key): callback function when pressed the button
 
 	love.keyboard.isDown(key): return true or false whether the key is pressed
+
+	love.timer.getFPS(): return current fps
 
 
 +Important:
